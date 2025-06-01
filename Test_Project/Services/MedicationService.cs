@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Test_Project.Models;
 
 namespace Test_Project.Services
@@ -11,7 +10,8 @@ namespace Test_Project.Services
     public static class MedicationService
     {
         private static List<Medication> _medications = new();
-        private static string _filePath = "Data/medications.json";
+        private static readonly string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "medications.json");
+        private static readonly object _fileLock = new object();
 
         static MedicationService()
         {
@@ -20,9 +20,12 @@ namespace Test_Project.Services
 
         public static void AddMedication(Medication med)
         {
-            med.Id = _medications.Count + 1;
-            _medications.Add(med);
-            SaveMedications();
+            lock (_fileLock)
+            {
+                med.Id = _medications.Count > 0 ? _medications.Max(m => m.Id) + 1 : 1;
+                _medications.Add(med);
+                SaveMedications();
+            }
         }
 
         public static List<Medication> GetMedicationsForDate(int userId, DateTime date)
@@ -32,6 +35,7 @@ namespace Test_Project.Services
                 date >= m.StartDate &&
                 date <= m.EndDate).ToList();
         }
+
         public static List<Medication> GetAllMedications(int userId)
         {
             return _medications.Where(m => m.UserId == userId).ToList();
@@ -39,13 +43,51 @@ namespace Test_Project.Services
 
         private static void LoadMedications()
         {
-            if (File.Exists(_filePath))
-                _medications = JsonSerializer.Deserialize<List<Medication>>(File.ReadAllText(_filePath));
+            try
+            {
+                lock (_fileLock)
+                {
+                    if (File.Exists(_filePath))
+                    {
+                        var json = File.ReadAllText(_filePath);
+                        _medications = JsonSerializer.Deserialize<List<Medication>>(json) ?? new List<Medication>();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                Console.WriteLine($"Error loading medications: {ex.Message}");
+                _medications = new List<Medication>();
+            }
         }
 
         private static void SaveMedications()
         {
-            File.WriteAllText(_filePath, JsonSerializer.Serialize(_medications));
+            try
+            {
+                lock (_fileLock)
+                {
+                    var directory = Path.GetDirectoryName(_filePath);
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    File.WriteAllText(_filePath, JsonSerializer.Serialize(_medications, options));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving medications: {ex.Message}");
+            }
+        }
+
+        public static void Cleanup()
+        {
+            // Очистка ресурсов, если необходимо
+            _medications.Clear();
         }
     }
 }

@@ -16,10 +16,37 @@ namespace Test_Project.Forms
             InitializeComponent();
             _currentUser = user;
 
+            // Настройка обработчиков
+            this.FormClosing += MainForm_FormClosing;
+            this.FormClosed += MainForm_FormClosed;
+
             InitializeMenu();
             InitializeCalendar();
             InitializeMedicationsList();
             LoadMedications();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Подтверждение выхода
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                var result = MessageBox.Show("Are you sure you want to exit?", "Exit",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Гарантированное закрытие приложения
+            MedicationService.Cleanup();
+            Application.Exit();
         }
 
         private void InitializeMenu()
@@ -63,7 +90,7 @@ namespace Test_Project.Forms
                         OpenForm(new ProfileForm(_currentUser));
                         break;
                     case "Exit":
-                        Application.Exit();
+                        this.Close(); // Корректное закрытие формы
                         break;
                 }
             }
@@ -73,15 +100,18 @@ namespace Test_Project.Forms
         {
             try
             {
-                var result = form.ShowDialog();
-                if (refreshMedications && result == DialogResult.OK)
+                using (form)
                 {
-                    LoadMedications();
+                    var result = form.ShowDialog(this); // Указываем владельца
+                    if (refreshMedications && result == DialogResult.OK)
+                    {
+                        LoadMedications();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error opening form: {ex.Message}",
+                MessageBox.Show(this, $"Error opening form: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -100,26 +130,33 @@ namespace Test_Project.Forms
         {
             medicationsListView.View = View.Details;
             medicationsListView.FullRowSelect = true;
-            medicationsListView.UseCompatibleStateImageBehavior = false;
+            medicationsListView.GridLines = true;
+            medicationsListView.Columns.Add("Medication", 200);
+            medicationsListView.Columns.Add("Dosage", 100);
+            medicationsListView.Columns.Add("Times", 200);
         }
 
         private void LoadMedications()
         {
-            medicationsListView.Items.Clear();
-            var meds = MedicationService.GetMedicationsForDate(
-                _currentUser.Id,
-                _selectedDate
-            );
-
-            foreach (var med in meds)
+            medicationsListView.BeginUpdate();
+            try
             {
-                var times = string.Join(", ", med.IntakeTimes.Select(t => t.ToString(@"hh\:mm")));
-                medicationsListView.Items.Add(new ListViewItem(new[]
+                medicationsListView.Items.Clear();
+                var meds = MedicationService.GetMedicationsForDate(
+                    _currentUser.Id,
+                    _selectedDate
+                );
+
+                foreach (var med in meds)
                 {
-                    med.Name,
-                    med.Dosage,
-                    times
-                }));
+                    var times = string.Join(", ", med.IntakeTimes.Select(t => t.ToString(@"hh\:mm")));
+                    var item = new ListViewItem(new[] { med.Name, med.Dosage, times });
+                    medicationsListView.Items.Add(item);
+                }
+            }
+            finally
+            {
+                medicationsListView.EndUpdate();
             }
         }
     }
