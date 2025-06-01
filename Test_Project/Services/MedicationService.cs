@@ -28,6 +28,36 @@ namespace Test_Project.Services
             }
         }
 
+        public static void UpdateMedication(Medication updatedMed)
+        {
+            lock (_fileLock)
+            {
+                var med = _medications.FirstOrDefault(m => m.Id == updatedMed.Id);
+                if (med != null)
+                {
+                    med.Name = updatedMed.Name;
+                    med.Dosage = updatedMed.Dosage;
+                    med.StartDate = updatedMed.StartDate;
+                    med.EndDate = updatedMed.EndDate;
+                    med.IntakeTimes = new List<TimeSpan>(updatedMed.IntakeTimes);
+                    SaveMedications();
+                }
+            }
+        }
+
+        public static void DeleteMedication(int id)
+        {
+            lock (_fileLock)
+            {
+                var med = _medications.FirstOrDefault(m => m.Id == id);
+                if (med != null)
+                {
+                    _medications.Remove(med);
+                    SaveMedications();
+                }
+            }
+        }
+
         public static List<Medication> GetMedicationsForDate(int userId, DateTime date)
         {
             return _medications.Where(m =>
@@ -56,7 +86,6 @@ namespace Test_Project.Services
             }
             catch (Exception ex)
             {
-                // Логирование ошибки
                 Console.WriteLine($"Error loading medications: {ex.Message}");
                 _medications = new List<Medication>();
             }
@@ -86,7 +115,6 @@ namespace Test_Project.Services
 
         public static void Cleanup()
         {
-            // Очистка ресурсов, если необходимо
             _medications.Clear();
         }
     }
