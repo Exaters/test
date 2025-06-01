@@ -60,5 +60,18 @@ namespace Test_Project.Services
                 MessageBox.Show($"Error saving users: {ex.Message}");
             }
         }
+
+
+        public static void UpdateUser(User updatedUser)
+        {
+            var user = _users.FirstOrDefault(u => u.Id == updatedUser.Id);
+            if (user != null)
+            {
+                user.Name = updatedUser.Name;
+                user.Password = updatedUser.Password;
+                SaveUsers();
+            }
+        }
+    
     }
 }

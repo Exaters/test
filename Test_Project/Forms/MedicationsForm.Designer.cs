@@ -17,176 +17,143 @@
 
         private void InitializeComponent()
         {
-            this.listBoxMedications = new System.Windows.Forms.ListBox();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.lblName = new System.Windows.Forms.Label();
-            this.lblDosage = new System.Windows.Forms.Label();
-            this.txtDosage = new System.Windows.Forms.TextBox();
-            this.lblStartDate = new System.Windows.Forms.Label();
-            this.dtStart = new System.Windows.Forms.DateTimePicker();
-            this.lblEndDate = new System.Windows.Forms.Label();
-            this.dtEnd = new System.Windows.Forms.DateTimePicker();
-            this.lblTimes = new System.Windows.Forms.Label();
+            this.components = new System.ComponentModel.Container();
+            this.medicationNameTextBox = new System.Windows.Forms.TextBox();
+            this.dosageTextBox = new System.Windows.Forms.TextBox();
+            this.startDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.endDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.medicationsListBox = new System.Windows.Forms.ListBox();
             this.timePicker = new System.Windows.Forms.DateTimePicker();
-            this.btnAddTime = new System.Windows.Forms.Button();
-            this.listBoxTimes = new System.Windows.Forms.ListBox();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
+            this.timesListBox = new System.Windows.Forms.ListBox();
+            this.addTimeButton = new System.Windows.Forms.Button();
+            this.removeTimeButton = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
-            // listBoxMedications
+            // medicationNameTextBox
             // 
-            this.listBoxMedications.FormattingEnabled = true;
-            this.listBoxMedications.ItemHeight = 15;
-            this.listBoxMedications.Location = new System.Drawing.Point(20, 20);
-            this.listBoxMedications.Name = "listBoxMedications";
-            this.listBoxMedications.Size = new System.Drawing.Size(200, 154);
-            this.listBoxMedications.TabIndex = 0;
+            this.medicationNameTextBox.Location = new System.Drawing.Point(20, 20);
+            this.medicationNameTextBox.Name = "medicationNameTextBox";
+            this.medicationNameTextBox.Size = new System.Drawing.Size(200, 23);
+            this.medicationNameTextBox.TabIndex = 0;
             // 
-            // txtName
+            // dosageTextBox
             // 
-            this.txtName.Location = new System.Drawing.Point(250, 40);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(200, 23);
-            this.txtName.TabIndex = 1;
+            this.dosageTextBox.Location = new System.Drawing.Point(20, 60);
+            this.dosageTextBox.Name = "dosageTextBox";
+            this.dosageTextBox.Size = new System.Drawing.Size(200, 23);
+            this.dosageTextBox.TabIndex = 1;
             // 
-            // lblName
+            // startDatePicker
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(250, 20);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 2;
-            this.lblName.Text = "Name";
+            this.startDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.startDatePicker.Location = new System.Drawing.Point(20, 100);
+            this.startDatePicker.Name = "startDatePicker";
+            this.startDatePicker.Size = new System.Drawing.Size(200, 23);
+            this.startDatePicker.TabIndex = 2;
             // 
-            // lblDosage
+            // endDatePicker
             // 
-            this.lblDosage.AutoSize = true;
-            this.lblDosage.Location = new System.Drawing.Point(250, 70);
-            this.lblDosage.Name = "lblDosage";
-            this.lblDosage.Size = new System.Drawing.Size(47, 15);
-            this.lblDosage.TabIndex = 3;
-            this.lblDosage.Text = "Dosage";
+            this.endDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.endDatePicker.Location = new System.Drawing.Point(20, 140);
+            this.endDatePicker.Name = "endDatePicker";
+            this.endDatePicker.Size = new System.Drawing.Size(200, 23);
+            this.endDatePicker.TabIndex = 3;
             // 
-            // txtDosage
+            // medicationsListBox
             // 
-            this.txtDosage.Location = new System.Drawing.Point(250, 90);
-            this.txtDosage.Name = "txtDosage";
-            this.txtDosage.Size = new System.Drawing.Size(200, 23);
-            this.txtDosage.TabIndex = 4;
-            // 
-            // lblStartDate
-            // 
-            this.lblStartDate.AutoSize = true;
-            this.lblStartDate.Location = new System.Drawing.Point(250, 120);
-            this.lblStartDate.Name = "lblStartDate";
-            this.lblStartDate.Size = new System.Drawing.Size(58, 15);
-            this.lblStartDate.TabIndex = 5;
-            this.lblStartDate.Text = "Start Date";
-            // 
-            // dtStart
-            // 
-            this.dtStart.Location = new System.Drawing.Point(250, 140);
-            this.dtStart.Name = "dtStart";
-            this.dtStart.Size = new System.Drawing.Size(200, 23);
-            this.dtStart.TabIndex = 6;
-            // 
-            // lblEndDate
-            // 
-            this.lblEndDate.AutoSize = true;
-            this.lblEndDate.Location = new System.Drawing.Point(250, 170);
-            this.lblEndDate.Name = "lblEndDate";
-            this.lblEndDate.Size = new System.Drawing.Size(54, 15);
-            this.lblEndDate.TabIndex = 7;
-            this.lblEndDate.Text = "End Date";
-            // 
-            // dtEnd
-            // 
-            this.dtEnd.Location = new System.Drawing.Point(250, 190);
-            this.dtEnd.Name = "dtEnd";
-            this.dtEnd.Size = new System.Drawing.Size(200, 23);
-            this.dtEnd.TabIndex = 8;
-            // 
-            // lblTimes
-            // 
-            this.lblTimes.AutoSize = true;
-            this.lblTimes.Location = new System.Drawing.Point(250, 220);
-            this.lblTimes.Name = "lblTimes";
-            this.lblTimes.Size = new System.Drawing.Size(88, 15);
-            this.lblTimes.TabIndex = 9;
-            this.lblTimes.Text = "Intake Times";
+            this.medicationsListBox.FormattingEnabled = true;
+            this.medicationsListBox.ItemHeight = 15;
+            this.medicationsListBox.Location = new System.Drawing.Point(250, 20);
+            this.medicationsListBox.Name = "medicationsListBox";
+            this.medicationsListBox.Size = new System.Drawing.Size(200, 154);
+            this.medicationsListBox.TabIndex = 4;
             // 
             // timePicker
             // 
             this.timePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.timePicker.Location = new System.Drawing.Point(250, 240);
+            this.timePicker.Location = new System.Drawing.Point(20, 180);
             this.timePicker.Name = "timePicker";
             this.timePicker.ShowUpDown = true;
             this.timePicker.Size = new System.Drawing.Size(120, 23);
-            this.timePicker.TabIndex = 10;
+            this.timePicker.TabIndex = 5;
             // 
-            // btnAddTime
+            // timesListBox
             // 
-            this.btnAddTime.Location = new System.Drawing.Point(380, 240);
-            this.btnAddTime.Name = "btnAddTime";
-            this.btnAddTime.Size = new System.Drawing.Size(70, 23);
-            this.btnAddTime.TabIndex = 11;
-            this.btnAddTime.Text = "Add";
-            this.btnAddTime.UseVisualStyleBackColor = true;
-            this.btnAddTime.Click += new System.EventHandler(this.btnAddTime_Click);
+            this.timesListBox.FormattingEnabled = true;
+            this.timesListBox.ItemHeight = 15;
+            this.timesListBox.Location = new System.Drawing.Point(20, 220);
+            this.timesListBox.Name = "timesListBox";
+            this.timesListBox.Size = new System.Drawing.Size(200, 154);
+            this.timesListBox.TabIndex = 6;
             // 
-            // listBoxTimes
+            // addTimeButton
             // 
-            this.listBoxTimes.FormattingEnabled = true;
-            this.listBoxTimes.ItemHeight = 15;
-            this.listBoxTimes.Location = new System.Drawing.Point(250, 270);
-            this.listBoxTimes.Name = "listBoxTimes";
-            this.listBoxTimes.Size = new System.Drawing.Size(200, 94);
-            this.listBoxTimes.TabIndex = 12;
+            this.addTimeButton.Location = new System.Drawing.Point(150, 180);
+            this.addTimeButton.Name = "addTimeButton";
+            this.addTimeButton.Size = new System.Drawing.Size(70, 23);
+            this.addTimeButton.TabIndex = 7;
+            this.addTimeButton.Text = "Add";
+            this.addTimeButton.UseVisualStyleBackColor = true;
+            this.addTimeButton.Click += new System.EventHandler(this.addTimeButton_Click);
             // 
-            // btnSave
+            // removeTimeButton
             // 
-            this.btnSave.Location = new System.Drawing.Point(300, 380);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 30);
-            this.btnSave.TabIndex = 13;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.removeTimeButton.Location = new System.Drawing.Point(150, 350);
+            this.removeTimeButton.Name = "removeTimeButton";
+            this.removeTimeButton.Size = new System.Drawing.Size(70, 23);
+            this.removeTimeButton.TabIndex = 8;
+            this.removeTimeButton.Text = "Remove";
+            this.removeTimeButton.UseVisualStyleBackColor = true;
+            this.removeTimeButton.Click += new System.EventHandler(this.removeTimeButton_Click);
             // 
-            // btnClose
+            // saveButton
             // 
-            this.btnClose.Location = new System.Drawing.Point(380, 380);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 30);
-            this.btnClose.TabIndex = 14;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            this.saveButton.Location = new System.Drawing.Point(300, 350);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 9;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Location = new System.Drawing.Point(380, 350);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 10;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
+            // errorProvider
+            // 
+            this.errorProvider.ContainerControl = this;
             // 
             // MedicationsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 430);
-            this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.listBoxTimes);
-            this.Controls.Add(this.btnAddTime);
+            this.ClientSize = new System.Drawing.Size(470, 390);
+            this.Controls.Add(this.cancelButton);
+            this.Controls.Add(this.saveButton);
+            this.Controls.Add(this.removeTimeButton);
+            this.Controls.Add(this.addTimeButton);
+            this.Controls.Add(this.timesListBox);
             this.Controls.Add(this.timePicker);
-            this.Controls.Add(this.lblTimes);
-            this.Controls.Add(this.dtEnd);
-            this.Controls.Add(this.lblEndDate);
-            this.Controls.Add(this.dtStart);
-            this.Controls.Add(this.lblStartDate);
-            this.Controls.Add(this.txtDosage);
-            this.Controls.Add(this.lblDosage);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.txtName);
-            this.Controls.Add(this.listBoxMedications);
+            this.Controls.Add(this.medicationsListBox);
+            this.Controls.Add(this.endDatePicker);
+            this.Controls.Add(this.startDatePicker);
+            this.Controls.Add(this.dosageTextBox);
+            this.Controls.Add(this.medicationNameTextBox);
             this.Name = "MedicationsForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "My Medications";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -194,20 +161,17 @@
 
         #endregion
 
-        private ListBox listBoxMedications;
-        private TextBox txtName;
-        private Label lblName;
-        private Label lblDosage;
-        private TextBox txtDosage;
-        private Label lblStartDate;
-        private DateTimePicker dtStart;
-        private Label lblEndDate;
-        private DateTimePicker dtEnd;
-        private Label lblTimes;
+        private TextBox medicationNameTextBox;
+        private TextBox dosageTextBox;
+        private DateTimePicker startDatePicker;
+        private DateTimePicker endDatePicker;
+        private ListBox medicationsListBox;
         private DateTimePicker timePicker;
-        private Button btnAddTime;
-        private ListBox listBoxTimes;
-        private Button btnSave;
-        private Button btnClose;
+        private ListBox timesListBox;
+        private Button addTimeButton;
+        private Button removeTimeButton;
+        private Button saveButton;
+        private Button cancelButton;
+        private ErrorProvider errorProvider;
     }
 }

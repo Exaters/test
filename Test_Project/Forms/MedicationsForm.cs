@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using System.Windows.Forms;
-using System.Xml.Linq;
 using Test_Project.Models;
 using Test_Project.Services;
 
@@ -19,60 +9,123 @@ namespace Test_Project.Forms
     public partial class MedicationsForm : Form
     {
         private readonly User _currentUser;
-        private Medication _currentMedication = new();
+        private Medication _currentMedication = new Medication();
 
         public MedicationsForm(User user)
         {
             _currentUser = user;
             InitializeComponent();
+            InitializeForm();
             LoadMedications();
+        }
+
+        private void InitializeForm()
+        {
+            // Настройка элементов управления
+            medicationNameTextBox.Tag = "Name";
+            dosageTextBox.Tag = "Dosage";
+
+            // Привязка событий валидации
+            medicationNameTextBox.Validating += ValidateRequiredField;
+            dosageTextBox.Validating += ValidateRequiredField;
+            startDatePicker.Validating += ValidateDateRange;
+            endDatePicker.Validating += ValidateDateRange;
+
+            // Настройка timePicker
+            timePicker.Format = DateTimePickerFormat.Time;
+            timePicker.ShowUpDown = true;
+        }
+
+        private void ValidateRequiredField(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+            if (string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                errorProvider.SetError(textBox, $"{textBox.Tag} is required");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(textBox, "");
+            }
+        }
+
+        private void ValidateDateRange(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (endDatePicker.Value < startDatePicker.Value)
+            {
+                errorProvider.SetError(endDatePicker, "End date cannot be before start date");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(endDatePicker, "");
+            }
         }
 
         private void LoadMedications()
         {
-            listBoxMedications.Items.Clear();
+            medicationsListBox.Items.Clear();
             var meds = MedicationService.GetAllMedications(_currentUser.Id);
 
-            foreach (var med in meds)
+            foreach (var med in meds.OrderBy(m => m.Name))
             {
-                listBoxMedications.Items.Add(med.Name);
+                medicationsListBox.Items.Add(med);
             }
         }
 
-        private void btnAddTime_Click(object sender, EventArgs e)
+        private void addTimeButton_Click(object sender, EventArgs e)
         {
-            if (timePicker.Value != null)
-            {
-                _currentMedication.IntakeTimes.Add(timePicker.Value.TimeOfDay);
-                UpdateTimesList();
-            }
+            _currentMedication.IntakeTimes.Add(timePicker.Value.TimeOfDay);
+            UpdateTimesList();
         }
 
         private void UpdateTimesList()
         {
-            listBoxTimes.Items.Clear();
-            foreach (var time in _currentMedication.IntakeTimes)
+            timesListBox.Items.Clear();
+            foreach (var time in _currentMedication.IntakeTimes.OrderBy(t => t))
             {
-                listBoxTimes.Items.Add(time.ToString(@"hh\:mm"));
+                timesListBox.Items.Add(time.ToString(@"hh\:mm"));
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void removeTimeButton_Click(object sender, EventArgs e)
         {
-            _currentMedication.UserId = _currentUser.Id;
-            _currentMedication.Name = txtName.Text;
-            _currentMedication.Dosage = txtDosage.Text;
-            _currentMedication.StartDate = dtStart.Value;
-            _currentMedication.EndDate = dtEnd.Value;
-
-            MedicationService.AddMedication(_currentMedication);
-            LoadMedications();
-            MessageBox.Show("Medication saved successfully!");
+            if (timesListBox.SelectedIndex != -1)
+            {
+                _currentMedication.IntakeTimes.RemoveAt(timesListBox.SelectedIndex);
+                UpdateTimesList();
+            }
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (!ValidateChildren())
+                return;
+
+            _currentMedication.UserId = _currentUser.Id;
+            _currentMedication.Name = medicationNameTextBox.Text;
+            _currentMedication.Dosage = dosageTextBox.Text;
+            _currentMedication.StartDate = startDatePicker.Value;
+            _currentMedication.EndDate = endDatePicker.Value;
+
+            try
+            {
+                MedicationService.AddMedication(_currentMedication);
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving medication: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }
