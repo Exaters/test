@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Test_Project.Models;
 using Test_Project.Services;
+using MedicationApp; // <-- добавлено
 
 namespace Test_Project.Forms
 {
@@ -16,9 +17,8 @@ namespace Test_Project.Forms
             InitializeComponent();
             _currentUser = user;
 
-            // Настройка обработчиков
-            this.FormClosing += MainForm_FormClosing;
-            this.FormClosed += MainForm_FormClosed;
+            this.FormClosing += MainForm_FormClosing!;
+            this.FormClosed += MainForm_FormClosed!;
 
             InitializeMenu();
             InitializeCalendar();
@@ -26,9 +26,8 @@ namespace Test_Project.Forms
             LoadMedications();
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
-            // Подтверждение выхода
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 var result = MessageBox.Show("Are you sure you want to exit?", "Exit",
@@ -42,9 +41,8 @@ namespace Test_Project.Forms
             }
         }
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void MainForm_FormClosed(object? sender, FormClosedEventArgs e)
         {
-            // Гарантированное закрытие приложения
             MedicationService.Cleanup();
             Application.Exit();
         }
@@ -66,12 +64,12 @@ namespace Test_Project.Forms
             foreach (var item in menuItems)
             {
                 var menuItem = new ToolStripMenuItem(item);
-                menuItem.Click += MenuItem_Click;
+                menuItem.Click += MenuItem_Click!;
                 mainMenuStrip.Items.Add(menuItem);
             }
         }
 
-        private void MenuItem_Click(object sender, EventArgs e)
+        private void MenuItem_Click(object? sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem menuItem)
             {
@@ -90,7 +88,7 @@ namespace Test_Project.Forms
                         OpenForm(new ProfileForm(_currentUser));
                         break;
                     case "Exit":
-                        this.Close(); // Корректное закрытие формы
+                        this.Close();
                         break;
                 }
             }
@@ -102,7 +100,7 @@ namespace Test_Project.Forms
             {
                 using (form)
                 {
-                    var result = form.ShowDialog(this); // Указываем владельца
+                    var result = form.ShowDialog(this);
                     if (refreshMedications && result == DialogResult.OK)
                     {
                         LoadMedications();
@@ -142,10 +140,7 @@ namespace Test_Project.Forms
             try
             {
                 medicationsListView.Items.Clear();
-                var meds = MedicationService.GetMedicationsForDate(
-                    _currentUser.Id,
-                    _selectedDate
-                );
+                var meds = MedicationService.GetMedicationsForDate(_currentUser.Id, _selectedDate);
 
                 foreach (var med in meds)
                 {

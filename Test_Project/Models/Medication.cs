@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Test_Project.Models
 {
@@ -15,5 +12,6 @@ namespace Test_Project.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public List<TimeSpan> IntakeTimes { get; set; } = new();
+        public string ImagePath { get; set; } = string.Empty;
     }
 }

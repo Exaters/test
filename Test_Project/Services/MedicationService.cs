@@ -11,10 +11,13 @@ namespace Test_Project.Services
     {
         private static List<Medication> _medications = new();
         private static readonly string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "medications.json");
-        private static readonly object _fileLock = new object();
+        private static readonly string _imageFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "MedicationImages");
+        private static readonly object _fileLock = new();
 
         static MedicationService()
         {
+            Directory.CreateDirectory(Path.GetDirectoryName(_filePath)!);
+            Directory.CreateDirectory(_imageFolder);
             LoadMedications();
         }
 
@@ -40,10 +43,24 @@ namespace Test_Project.Services
                     med.StartDate = updatedMed.StartDate;
                     med.EndDate = updatedMed.EndDate;
                     med.IntakeTimes = new List<TimeSpan>(updatedMed.IntakeTimes);
+                    med.ImagePath = updatedMed.ImagePath;
                     SaveMedications();
                 }
             }
         }
+
+        public static void SaveMedication(Medication med)
+        {
+            if (med.Id == 0)
+            {
+                AddMedication(med);
+            }
+            else
+            {
+                UpdateMedication(med);
+            }
+        }
+
 
         public static void DeleteMedication(int id)
         {
@@ -52,30 +69,68 @@ namespace Test_Project.Services
                 var med = _medications.FirstOrDefault(m => m.Id == id);
                 if (med != null)
                 {
+                    if (!string.IsNullOrEmpty(med.ImagePath) && File.Exists(med.ImagePath))
+                    {
+                        try { File.Delete(med.ImagePath); } catch (Exception ex) { Console.WriteLine($"Failed to delete image: {ex.Message}"); }
+                    }
+
                     _medications.Remove(med);
                     SaveMedications();
                 }
             }
         }
 
+        public static string SaveMedicationImage(string sourcePath, int medicationId)
+        {
+            if (!File.Exists(sourcePath)) return string.Empty;
+
+            try
+            {
+                string extension = Path.GetExtension(sourcePath);
+                string fileName = $"med_{medicationId}{extension}";
+                string destPath = Path.Combine(_imageFolder, fileName);
+                File.Copy(sourcePath, destPath, true);
+                return destPath;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error copying image: {ex.Message}");
+                return string.Empty;
+            }
+        }
+
         public static List<Medication> GetMedicationsForDate(int userId, DateTime date)
         {
-            return _medications.Where(m =>
-                m.UserId == userId &&
-                date >= m.StartDate &&
-                date <= m.EndDate).ToList();
+            lock (_fileLock)
+            {
+                return _medications.Where(m =>
+                    m.UserId == userId &&
+                    date >= m.StartDate &&
+                    date <= m.EndDate).ToList();
+            }
         }
 
         public static List<Medication> GetAllMedications(int userId)
         {
-            return _medications.Where(m => m.UserId == userId).ToList();
+            lock (_fileLock)
+            {
+                return _medications.Where(m => m.UserId == userId).ToList();
+            }
+        }
+
+        public static void Cleanup()
+        {
+            lock (_fileLock)
+            {
+                _medications.Clear();
+            }
         }
 
         private static void LoadMedications()
         {
-            try
+            lock (_fileLock)
             {
-                lock (_fileLock)
+                try
                 {
                     if (File.Exists(_filePath))
                     {
@@ -83,39 +138,28 @@ namespace Test_Project.Services
                         _medications = JsonSerializer.Deserialize<List<Medication>>(json) ?? new List<Medication>();
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading medications: {ex.Message}");
-                _medications = new List<Medication>();
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error loading medications: {ex.Message}");
+                    _medications = new List<Medication>();
+                }
             }
         }
 
         private static void SaveMedications()
         {
-            try
+            lock (_fileLock)
             {
-                lock (_fileLock)
+                try
                 {
-                    var directory = Path.GetDirectoryName(_filePath);
-                    if (!Directory.Exists(directory))
-                    {
-                        Directory.CreateDirectory(directory);
-                    }
-
                     var options = new JsonSerializerOptions { WriteIndented = true };
                     File.WriteAllText(_filePath, JsonSerializer.Serialize(_medications, options));
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error saving medications: {ex.Message}");
+                }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error saving medications: {ex.Message}");
-            }
-        }
-
-        public static void Cleanup()
-        {
-            _medications.Clear();
         }
     }
 }
