@@ -5,7 +5,7 @@ namespace Test_Project.Services
 {
     public static class HashService
     {
-        private const string Salt = "fixed_salt_value_12345";
+        private const string Salt = "fixed_salt_value_19451941";
 
         public static string ComputeSaltedHash(string input)
         {
