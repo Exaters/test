@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using Test_Project.Models;
+﻿using Test_Project.Models;
 using Test_Project.Services;
 
 namespace Test_Project.Forms
@@ -25,36 +22,35 @@ namespace Test_Project.Forms
             dataGridViewSchedule.AllowUserToDeleteRows = false;
             dataGridViewSchedule.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            // Добавляем колонки
-            dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
+            _ = dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "Name",
                 HeaderText = "Medication",
                 Width = 150
             });
 
-            dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
+            _ = dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "Dosage",
                 HeaderText = "Dosage",
                 Width = 100
             });
 
-            dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
+            _ = dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "Time",
                 HeaderText = "Time",
                 Width = 80
             });
 
-            dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
+            _ = dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "StartDate",
                 HeaderText = "Start Date",
                 Width = 100
             });
 
-            dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
+            _ = dataGridViewSchedule.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "EndDate",
                 HeaderText = "End Date",
@@ -82,12 +78,31 @@ namespace Test_Project.Forms
 
         private void btnFilter_Click(object? sender, EventArgs e)
         {
-            // Фильтрация данных
+            DateTime startFilter = dtpStartFilter.Value.Date;
+            DateTime endFilter = dtpEndFilter.Value.Date;
+
+            var filteredData = MedicationService.GetAllMedications(_currentUser.Id)
+                .Where(med =>
+                    med.StartDate.Date <= endFilter && med.EndDate.Date >= startFilter)
+                .SelectMany(med => med.IntakeTimes.Select(time => new
+                {
+                    med.Name,
+                    med.Dosage,
+                    Time = time.ToString(@"hh\:mm"),
+                    StartDate = med.StartDate.ToShortDateString(),
+                    EndDate = med.EndDate.ToShortDateString()
+                }))
+                .OrderBy(x => x.Time)
+                .ToList();
+
+            dataGridViewSchedule.DataSource = filteredData;
+            lblStatus.Text = $"Showing {dataGridViewSchedule.Rows.Count} scheduled doses " +
+                             $"from {startFilter:dd.MM.yyyy} to {endFilter:dd.MM.yyyy}";
         }
 
         private void btnPrint_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Print functionality will be implemented here",
+            _ = MessageBox.Show("Print functionality will be implemented here",
                 "Print", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

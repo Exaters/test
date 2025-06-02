@@ -46,101 +46,80 @@
 
             ((System.ComponentModel.ISupportInitialize)(medicationPictureBox)).BeginInit();
 
-            // Form
             this.ClientSize = new System.Drawing.Size(720, 470);
             this.Text = "Медикаменты";
 
-            // medicationsListBox
             medicationsListBox.Location = new System.Drawing.Point(12, 12);
             medicationsListBox.Size = new System.Drawing.Size(200, 400);
 
-            // nameLabel
             nameLabel.Text = "Название:";
             nameLabel.Location = new System.Drawing.Point(230, 12);
             nameLabel.Size = new System.Drawing.Size(100, 20);
 
-            // nameTextBox
             nameTextBox.Location = new System.Drawing.Point(330, 12);
             nameTextBox.Size = new System.Drawing.Size(200, 23);
 
-            // dosageLabel
             dosageLabel.Text = "Дозировка:";
             dosageLabel.Location = new System.Drawing.Point(230, 42);
             dosageLabel.Size = new System.Drawing.Size(100, 20);
 
-            // dosageTextBox
             dosageTextBox.Location = new System.Drawing.Point(330, 42);
             dosageTextBox.Size = new System.Drawing.Size(200, 23);
 
-            // startDateLabel
             startDateLabel.Text = "Дата начала:";
             startDateLabel.Location = new System.Drawing.Point(230, 72);
             startDateLabel.Size = new System.Drawing.Size(100, 20);
 
-            // startDatePicker
             startDatePicker.Location = new System.Drawing.Point(330, 72);
             startDatePicker.Size = new System.Drawing.Size(200, 23);
 
-            // endDateLabel
             endDateLabel.Text = "Дата окончания:";
             endDateLabel.Location = new System.Drawing.Point(230, 102);
             endDateLabel.Size = new System.Drawing.Size(100, 20);
 
-            // endDatePicker
             endDatePicker.Location = new System.Drawing.Point(330, 102);
             endDatePicker.Size = new System.Drawing.Size(200, 23);
 
-            // intakeTimesLabel
             intakeTimesLabel.Text = "Время приёма:";
             intakeTimesLabel.Location = new System.Drawing.Point(230, 132);
             intakeTimesLabel.Size = new System.Drawing.Size(100, 20);
 
-            // intakeTimesListBox
             intakeTimesListBox.Location = new System.Drawing.Point(330, 132);
             intakeTimesListBox.Size = new System.Drawing.Size(200, 80);
 
-            // addTimeButton
             addTimeButton.Text = "Добавить время";
             addTimeButton.Location = new System.Drawing.Point(330, 220);
             addTimeButton.Size = new System.Drawing.Size(95, 30);
 
-            // removeTimeButton
             removeTimeButton.Text = "Удалить время";
             removeTimeButton.Location = new System.Drawing.Point(435, 220);
             removeTimeButton.Size = new System.Drawing.Size(95, 30);
 
-            // medicationPictureBox
             medicationPictureBox.Location = new System.Drawing.Point(550, 12);
             medicationPictureBox.Size = new System.Drawing.Size(150, 150);
             medicationPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             medicationPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 
-            // uploadImageButton
             uploadImageButton.Text = "Загрузить фото";
             uploadImageButton.Location = new System.Drawing.Point(550, 170);
             uploadImageButton.Size = new System.Drawing.Size(150, 30);
 
-            // removeImageButton
             removeImageButton.Text = "Удалить фото";
             removeImageButton.Location = new System.Drawing.Point(550, 210);
             removeImageButton.Size = new System.Drawing.Size(150, 30);
 
-            // saveButton
             saveButton.Text = "Сохранить";
             saveButton.Location = new System.Drawing.Point(550, 260);
             saveButton.Size = new System.Drawing.Size(150, 30);
 
-            // deleteButton
             deleteButton.Text = "Удалить";
             deleteButton.Location = new System.Drawing.Point(550, 300);
             deleteButton.Size = new System.Drawing.Size(150, 30);
 
-            // newMedicationButton
             newMedicationButton.Text = "Новое лекарство";
             newMedicationButton.Location = new System.Drawing.Point(12, 420);
             newMedicationButton.Size = new System.Drawing.Size(200, 30);
 
-            // Add controls
             this.Controls.Add(medicationsListBox);
             this.Controls.Add(nameLabel);
             this.Controls.Add(nameTextBox);

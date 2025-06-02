@@ -7,14 +7,13 @@ namespace Test_Project
         [STAThread]
         static void Main()
         {
-            // Создаем папку Data если ее нет
+
             string dataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
             if (!Directory.Exists(dataPath))
             {
-                Directory.CreateDirectory(dataPath);
+                _ = Directory.CreateDirectory(dataPath);
             }
 
-            // Создаем пустые файлы если их нет
             string usersFile = Path.Combine(dataPath, "users.json");
             if (!File.Exists(usersFile))
             {

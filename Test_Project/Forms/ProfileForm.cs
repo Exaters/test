@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
 using Test_Project.Models;
 using Test_Project.Services;
 
@@ -20,12 +18,11 @@ namespace Test_Project.Forms
 
         private void InitializeForm()
         {
-            // Настройка валидации
+
             txtName.Validating += ValidateRequiredField;
             txtNewPassword.Validating += ValidatePassword;
             txtConfirmPassword.Validating += ValidatePasswordMatch;
 
-            // Инициализация полей пароля
             UpdatePasswordVisibility();
         }
 
@@ -33,14 +30,12 @@ namespace Test_Project.Forms
         {
             bool showPassword = chkShowPassword.Checked;
 
-            // Полностью сбрасываем свойства паролей
             txtNewPassword.UseSystemPasswordChar = false;
             txtConfirmPassword.UseSystemPasswordChar = false;
 
             txtNewPassword.PasswordChar = showPassword ? '\0' : '*';
             txtConfirmPassword.PasswordChar = showPassword ? '\0' : '*';
 
-            // Принудительное обновление отображения
             txtNewPassword.Refresh();
             txtConfirmPassword.Refresh();
         }
@@ -95,7 +90,9 @@ namespace Test_Project.Forms
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (!ValidateChildren())
+            {
                 return;
+            }
 
             try
             {
@@ -103,12 +100,11 @@ namespace Test_Project.Forms
 
                 if (!string.IsNullOrEmpty(txtNewPassword.Text))
                 {
-                    // Хешируем новый пароль перед сохранением
                     _currentUser.Password = HashService.ComputeSaltedHash(txtNewPassword.Text);
                 }
 
                 AuthService.UpdateUser(_currentUser);
-                MessageBox.Show("Profile updated successfully", "Success",
+                _ = MessageBox.Show("Profile updated successfully", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 DialogResult = DialogResult.OK;
@@ -116,7 +112,7 @@ namespace Test_Project.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating profile: {ex.Message}",
+                _ = MessageBox.Show($"Error updating profile: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

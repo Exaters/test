@@ -30,9 +30,7 @@ namespace Test_Project.Forms
             btnSwitchMode = new Button();
             btnAction = new Button();
             SuspendLayout();
-            // 
-            // lblTitle
-            // 
+
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             lblTitle.Location = new Point(156, 29);
@@ -40,44 +38,34 @@ namespace Test_Project.Forms
             lblTitle.Size = new Size(78, 32);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Login";
-            // 
-            // lblUsername
-            // 
+
             lblUsername.AutoSize = true;
             lblUsername.Location = new Point(57, 93);
             lblUsername.Name = "lblUsername";
             lblUsername.Size = new Size(75, 20);
             lblUsername.TabIndex = 1;
             lblUsername.Text = "Username";
-            // 
-            // txtUsername
-            // 
+
             txtUsername.Location = new Point(137, 89);
             txtUsername.Margin = new Padding(3, 4, 3, 4);
             txtUsername.Name = "txtUsername";
             txtUsername.Size = new Size(205, 27);
             txtUsername.TabIndex = 2;
-            // 
-            // lblPassword
-            // 
+
             lblPassword.AutoSize = true;
             lblPassword.Location = new Point(57, 147);
             lblPassword.Name = "lblPassword";
             lblPassword.Size = new Size(70, 20);
             lblPassword.TabIndex = 3;
             lblPassword.Text = "Password";
-            // 
-            // txtPassword
-            // 
+
             txtPassword.Location = new Point(137, 143);
             txtPassword.Margin = new Padding(3, 4, 3, 4);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
             txtPassword.Size = new Size(205, 27);
             txtPassword.TabIndex = 4;
-            // 
-            // lblName
-            // 
+
             lblName.AutoSize = true;
             lblName.Location = new Point(57, 200);
             lblName.Name = "lblName";
@@ -85,18 +73,14 @@ namespace Test_Project.Forms
             lblName.TabIndex = 5;
             lblName.Text = "Name";
             lblName.Visible = false;
-            // 
-            // txtName
-            // 
+
             txtName.Location = new Point(137, 196);
             txtName.Margin = new Padding(3, 4, 3, 4);
             txtName.Name = "txtName";
             txtName.Size = new Size(205, 27);
             txtName.TabIndex = 6;
             txtName.Visible = false;
-            // 
-            // btnSwitchMode
-            // 
+
             btnSwitchMode.Location = new Point(57, 267);
             btnSwitchMode.Margin = new Padding(3, 4, 3, 4);
             btnSwitchMode.Name = "btnSwitchMode";
@@ -105,9 +89,7 @@ namespace Test_Project.Forms
             btnSwitchMode.Text = "Create Account";
             btnSwitchMode.UseVisualStyleBackColor = true;
             btnSwitchMode.Click += btnSwitchMode_Click;
-            // 
-            // btnAction
-            // 
+
             btnAction.Location = new Point(206, 267);
             btnAction.Margin = new Padding(3, 4, 3, 4);
             btnAction.Name = "btnAction";
@@ -116,9 +98,7 @@ namespace Test_Project.Forms
             btnAction.Text = "Login";
             btnAction.UseVisualStyleBackColor = true;
             btnAction.Click += btnAction_Click;
-            // 
-            // AuthForm
-            // 
+
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(400, 333);

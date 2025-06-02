@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Test_Project.Models
+﻿namespace Test_Project.Models
 {
     public class Medication
     {

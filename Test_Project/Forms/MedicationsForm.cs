@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using Test_Project.Models;
+﻿using Test_Project.Models;
 using Test_Project.Services;
 
 namespace MedicationApp
@@ -13,8 +7,6 @@ namespace MedicationApp
     {
         private Medication? _currentMedication;
         private readonly int _userId;
-
-        // Объявляем все контролы здесь
         private ListBox medicationsListBox;
         private TextBox medicationNameTextBox;
         private TextBox dosageTextBox;
@@ -35,8 +27,6 @@ namespace MedicationApp
         {
             InitializeComponent();
             _userId = user.Id;
-
-            // Подписываемся на события
             medicationsListBox.SelectedIndexChanged += MedicationsListBox_SelectedIndexChanged;
             addTimeButton.Click += addTimeButton_Click;
             removeTimeButton.Click += removeTimeButton_Click;
@@ -70,37 +60,31 @@ namespace MedicationApp
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
 
-            // medicationsListBox
             medicationsListBox.Location = new Point(12, 12);
             medicationsListBox.Name = "medicationsListBox";
             medicationsListBox.Size = new Size(200, 364);
             medicationsListBox.TabIndex = 0;
 
-            // medicationNameTextBox
             medicationNameTextBox.Location = new Point(230, 10);
             medicationNameTextBox.Name = "medicationNameTextBox";
             medicationNameTextBox.Size = new Size(200, 27);
             medicationNameTextBox.TabIndex = 1;
 
-            // dosageTextBox
             dosageTextBox.Location = new Point(230, 40);
             dosageTextBox.Name = "dosageTextBox";
             dosageTextBox.Size = new Size(200, 27);
             dosageTextBox.TabIndex = 2;
 
-            // startDatePicker
             startDatePicker.Location = new Point(230, 70);
             startDatePicker.Name = "startDatePicker";
             startDatePicker.Size = new Size(200, 27);
             startDatePicker.TabIndex = 3;
 
-            // endDatePicker
             endDatePicker.Location = new Point(230, 100);
             endDatePicker.Name = "endDatePicker";
             endDatePicker.Size = new Size(200, 27);
             endDatePicker.TabIndex = 4;
 
-            // pictureBox
             pictureBox.Location = new Point(230, 130);
             pictureBox.Name = "pictureBox";
             pictureBox.Size = new Size(119, 100);
@@ -108,27 +92,23 @@ namespace MedicationApp
             pictureBox.TabIndex = 5;
             pictureBox.TabStop = false;
 
-            // uploadImageButton
             uploadImageButton.Location = new Point(355, 130);
             uploadImageButton.Name = "uploadImageButton";
             uploadImageButton.Size = new Size(75, 30);
             uploadImageButton.TabIndex = 6;
             uploadImageButton.Text = "Upload Image";
 
-            // removeImageButton
             removeImageButton.Location = new Point(355, 166);
             removeImageButton.Name = "removeImageButton";
             removeImageButton.Size = new Size(75, 30);
             removeImageButton.TabIndex = 7;
             removeImageButton.Text = "Remove Image";
 
-            // timesListBox
             timesListBox.Location = new Point(230, 240);
             timesListBox.Name = "timesListBox";
             timesListBox.Size = new Size(104, 104);
             timesListBox.TabIndex = 8;
 
-            // timePicker
             timePicker.Format = DateTimePickerFormat.Time;
             timePicker.Location = new Point(340, 240);
             timePicker.Name = "timePicker";
@@ -136,42 +116,36 @@ namespace MedicationApp
             timePicker.Size = new Size(90, 27);
             timePicker.TabIndex = 9;
 
-            // addTimeButton
             addTimeButton.Location = new Point(355, 273);
             addTimeButton.Name = "addTimeButton";
             addTimeButton.Size = new Size(75, 30);
             addTimeButton.TabIndex = 10;
             addTimeButton.Text = "Add Time";
 
-            // removeTimeButton
             removeTimeButton.Location = new Point(355, 309);
             removeTimeButton.Name = "removeTimeButton";
             removeTimeButton.Size = new Size(75, 30);
             removeTimeButton.TabIndex = 11;
             removeTimeButton.Text = "Remove Time";
 
-            // saveButton
             saveButton.Location = new Point(230, 353);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(84, 30);
             saveButton.TabIndex = 12;
             saveButton.Text = "Save";
 
-            // deleteButton
             deleteButton.Location = new Point(346, 353);
             deleteButton.Name = "deleteButton";
             deleteButton.Size = new Size(84, 30);
             deleteButton.TabIndex = 13;
             deleteButton.Text = "Delete";
 
-            // newMedicationButton
             newMedicationButton.Location = new Point(12, 380);
             newMedicationButton.Size = new Size(200, 30);
             newMedicationButton.Text = "Новое лекарство";
             newMedicationButton.Name = "newMedicationButton";
             newMedicationButton.TabIndex = 14;
 
-            // MedicationsForm
             ClientSize = new Size(447, 422);
             Controls.Add(medicationsListBox);
             Controls.Add(medicationNameTextBox);
@@ -218,7 +192,7 @@ namespace MedicationApp
                 timesListBox.Items.Clear();
                 foreach (var time in selectedMedication.IntakeTimes)
                 {
-                    timesListBox.Items.Add(time.ToString(@"hh\:mm"));
+                    _ = timesListBox.Items.Add(time.ToString(@"hh\:mm"));
                 }
 
                 if (pictureBox.Image != null)
@@ -248,7 +222,7 @@ namespace MedicationApp
             var timeStr = timePicker.Value.TimeOfDay.ToString(@"hh\:mm");
             if (!timesListBox.Items.Contains(timeStr))
             {
-                timesListBox.Items.Add(timeStr);
+                _ = timesListBox.Items.Add(timeStr);
             }
         }
 
@@ -272,7 +246,7 @@ namespace MedicationApp
                 try
                 {
                     var imagesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MedicationImages");
-                    Directory.CreateDirectory(imagesDir);
+                    _ = Directory.CreateDirectory(imagesDir);
 
                     var fileName = Guid.NewGuid() + Path.GetExtension(openFileDialog.FileName);
                     var destPath = Path.Combine(imagesDir, fileName);
@@ -295,7 +269,7 @@ namespace MedicationApp
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ошибка при загрузке изображения: " + ex.Message);
+                    _ = MessageBox.Show("Ошибка при загрузке изображения: " + ex.Message);
                 }
             }
         }
@@ -318,7 +292,7 @@ namespace MedicationApp
         {
             if (string.IsNullOrWhiteSpace(medicationNameTextBox.Text))
             {
-                MessageBox.Show("Введите название лекарства");
+                _ = MessageBox.Show("Введите название лекарства");
                 return;
             }
 
@@ -351,7 +325,7 @@ namespace MedicationApp
         {
             if (_currentMedication == null)
             {
-                MessageBox.Show("Выберите лекарство для удаления");
+                _ = MessageBox.Show("Выберите лекарство для удаления");
                 return;
             }
 

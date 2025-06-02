@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Test_Project.Models;
 
 namespace Test_Project.Services
@@ -16,8 +12,8 @@ namespace Test_Project.Services
 
         static MedicationService()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(_filePath)!);
-            Directory.CreateDirectory(_imageFolder);
+            _ = Directory.CreateDirectory(Path.GetDirectoryName(_filePath)!);
+            _ = Directory.CreateDirectory(_imageFolder);
             LoadMedications();
         }
 
@@ -74,7 +70,7 @@ namespace Test_Project.Services
                         try { File.Delete(med.ImagePath); } catch (Exception ex) { Console.WriteLine($"Failed to delete image: {ex.Message}"); }
                     }
 
-                    _medications.Remove(med);
+                    _ = _medications.Remove(med);
                     SaveMedications();
                 }
             }
@@ -82,7 +78,10 @@ namespace Test_Project.Services
 
         public static string SaveMedicationImage(string sourcePath, int medicationId)
         {
-            if (!File.Exists(sourcePath)) return string.Empty;
+            if (!File.Exists(sourcePath))
+            {
+                return string.Empty;
+            }
 
             try
             {

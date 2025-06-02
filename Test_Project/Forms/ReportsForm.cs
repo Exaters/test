@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
+﻿using System.Windows.Forms.DataVisualization.Charting;
 using Test_Project.Models;
 using Test_Project.Services;
 
@@ -28,7 +25,7 @@ namespace Test_Project.Forms
             var chartArea = new ChartArea();
             chartMedications.ChartAreas.Add(chartArea);
 
-            chartMedications.Titles.Add("Medication Duration Analysis");
+            _ = chartMedications.Titles.Add("Medication Duration Analysis");
             chartMedications.Titles[0].Font = new System.Drawing.Font("Segoe UI", 12, System.Drawing.FontStyle.Bold);
         }
 
@@ -47,7 +44,7 @@ namespace Test_Project.Forms
             foreach (var med in medications.OrderBy(m => m.Name))
             {
                 int duration = (med.EndDate - med.StartDate).Days;
-                series.Points.AddXY(med.Name, duration);
+                _ = series.Points.AddXY(med.Name, duration);
             }
 
             chartMedications.Series.Add(series);
@@ -55,12 +52,12 @@ namespace Test_Project.Forms
 
         private void exportPdfButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Export to PDF functionality will be implemented here");
+            _ = MessageBox.Show("Export to PDF functionality will be implemented here");
         }
 
         private void exportExcelButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Export to Excel functionality will be implemented here");
+            _ = MessageBox.Show("Export to Excel functionality will be implemented here");
         }
 
         private void closeButton_Click(object sender, EventArgs e)

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Windows.Forms;
+﻿using System.Text.Json;
 using Test_Project.Models;
 
 namespace Test_Project.Services
@@ -20,7 +16,9 @@ namespace Test_Project.Services
         public static bool Register(User newUser)
         {
             if (_users.Any(u => u.Username == newUser.Username))
+            {
                 return false;
+            }
 
             newUser.Id = _users.Count + 1;
             _users.Add(newUser);
@@ -58,7 +56,7 @@ namespace Test_Project.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading users: {ex.Message}");
+                _ = MessageBox.Show($"Error loading users: {ex.Message}");
             }
         }
 
@@ -71,7 +69,7 @@ namespace Test_Project.Services
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving users: {ex.Message}");
+                _ = MessageBox.Show($"Error saving users: {ex.Message}");
             }
         }
     }

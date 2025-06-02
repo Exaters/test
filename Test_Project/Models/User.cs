@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Test_Project.Models
+﻿namespace Test_Project.Models
 {
     public class User
     {
         public int Id { get; set; }
         public string Username { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty; 
+        public string Password { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
