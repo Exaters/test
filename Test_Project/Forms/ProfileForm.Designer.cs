@@ -17,131 +17,172 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.usernameLabel = new System.Windows.Forms.Label();
-            this.nameTextBox = new System.Windows.Forms.TextBox();
-            this.newPasswordTextBox = new System.Windows.Forms.TextBox();
-            this.confirmPasswordTextBox = new System.Windows.Forms.TextBox();
-            this.accountCreatedLabel = new System.Windows.Forms.Label();
-            this.saveButton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
-            this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.showPasswordCheckBox = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            lblUsername = new Label();
+            txtName = new TextBox();
+            txtNewPassword = new TextBox();
+            txtConfirmPassword = new TextBox();
+            lblAccountCreated = new Label();
+            btnSave = new Button();
+            btnCancel = new Button();
+            errorProvider = new ErrorProvider(components);
+            chkShowPassword = new CheckBox();
+            lblName = new Label();
+            lblNewPassword = new Label();
+            lblConfirmPassword = new Label();
+            ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
+            SuspendLayout();
             // 
-            // usernameLabel
+            // lblUsername
             // 
-            this.usernameLabel.AutoSize = true;
-            this.usernameLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.usernameLabel.Location = new System.Drawing.Point(20, 20);
-            this.usernameLabel.Name = "usernameLabel";
-            this.usernameLabel.Size = new System.Drawing.Size(73, 17);
-            this.usernameLabel.TabIndex = 0;
-            this.usernameLabel.Text = "Username:";
+            lblUsername.AutoSize = true;
+            lblUsername.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            lblUsername.Location = new Point(23, 27);
+            lblUsername.Name = "lblUsername";
+            lblUsername.Size = new Size(94, 23);
+            lblUsername.TabIndex = 0;
+            lblUsername.Text = "Username:";
             // 
-            // nameTextBox
+            // txtName
             // 
-            this.nameTextBox.Location = new System.Drawing.Point(20, 60);
-            this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(200, 23);
-            this.nameTextBox.TabIndex = 1;
+            txtName.Location = new Point(23, 107);
+            txtName.Margin = new Padding(3, 4, 3, 4);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(228, 27);
+            txtName.TabIndex = 1;
             // 
-            // newPasswordTextBox
+            // txtNewPassword
             // 
-            this.newPasswordTextBox.Location = new System.Drawing.Point(20, 100);
-            this.newPasswordTextBox.Name = "newPasswordTextBox";
-            this.newPasswordTextBox.PasswordChar = '*';
-            this.newPasswordTextBox.Size = new System.Drawing.Size(200, 23);
-            this.newPasswordTextBox.TabIndex = 2;
+            txtNewPassword.Location = new Point(23, 187);
+            txtNewPassword.Margin = new Padding(3, 4, 3, 4);
+            txtNewPassword.Name = "txtNewPassword";
+            txtNewPassword.PasswordChar = '*';
+            txtNewPassword.Size = new Size(228, 27);
+            txtNewPassword.TabIndex = 2;
             // 
-            // confirmPasswordTextBox
+            // txtConfirmPassword
             // 
-            this.confirmPasswordTextBox.Location = new System.Drawing.Point(20, 140);
-            this.confirmPasswordTextBox.Name = "confirmPasswordTextBox";
-            this.confirmPasswordTextBox.PasswordChar = '*';
-            this.confirmPasswordTextBox.Size = new System.Drawing.Size(200, 23);
-            this.confirmPasswordTextBox.TabIndex = 3;
+            txtConfirmPassword.Location = new Point(23, 262);
+            txtConfirmPassword.Margin = new Padding(3, 4, 3, 4);
+            txtConfirmPassword.Name = "txtConfirmPassword";
+            txtConfirmPassword.PasswordChar = '*';
+            txtConfirmPassword.Size = new Size(228, 27);
+            txtConfirmPassword.TabIndex = 3;
             // 
-            // accountCreatedLabel
+            // lblAccountCreated
             // 
-            this.accountCreatedLabel.AutoSize = true;
-            this.accountCreatedLabel.Location = new System.Drawing.Point(20, 220);
-            this.accountCreatedLabel.Name = "accountCreatedLabel";
-            this.accountCreatedLabel.Size = new System.Drawing.Size(100, 15);
-            this.accountCreatedLabel.TabIndex = 4;
-            this.accountCreatedLabel.Text = "Account created:";
+            lblAccountCreated.AutoSize = true;
+            lblAccountCreated.Location = new Point(23, 387);
+            lblAccountCreated.Name = "lblAccountCreated";
+            lblAccountCreated.Size = new Size(120, 20);
+            lblAccountCreated.TabIndex = 4;
+            lblAccountCreated.Text = "Account created:";
             // 
-            // saveButton
+            // btnSave
             // 
-            this.saveButton.Location = new System.Drawing.Point(20, 180);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(90, 30);
-            this.saveButton.TabIndex = 5;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            btnSave.Location = new Point(23, 334);
+            btnSave.Margin = new Padding(3, 4, 3, 4);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(103, 40);
+            btnSave.TabIndex = 5;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
-            // cancelButton
+            // btnCancel
             // 
-            this.cancelButton.Location = new System.Drawing.Point(130, 180);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(90, 30);
-            this.cancelButton.TabIndex = 6;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            btnCancel.Location = new Point(149, 334);
+            btnCancel.Margin = new Padding(3, 4, 3, 4);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(103, 40);
+            btnCancel.TabIndex = 6;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // errorProvider
             // 
-            this.errorProvider.ContainerControl = this;
+            errorProvider.ContainerControl = this;
             // 
-            // showPasswordCheckBox
+            // chkShowPassword
             // 
-            this.showPasswordCheckBox.AutoSize = true;
-            this.showPasswordCheckBox.Location = new System.Drawing.Point(20, 170);
-            this.showPasswordCheckBox.Name = "showPasswordCheckBox";
-            this.showPasswordCheckBox.Size = new System.Drawing.Size(108, 19);
-            this.showPasswordCheckBox.TabIndex = 7;
-            this.showPasswordCheckBox.Text = "Show Password";
-            this.showPasswordCheckBox.UseVisualStyleBackColor = true;
-            this.showPasswordCheckBox.CheckedChanged += new System.EventHandler(this.showPasswordCheckBox_CheckedChanged);
+            chkShowPassword.AutoSize = true;
+            chkShowPassword.Location = new Point(21, 296);
+            chkShowPassword.Name = "chkShowPassword";
+            chkShowPassword.Size = new Size(132, 24);
+            chkShowPassword.TabIndex = 4;
+            chkShowPassword.Text = "Show Password";
+            chkShowPassword.UseVisualStyleBackColor = true;
+            chkShowPassword.CheckedChanged += chkShowPassword_CheckedChanged;
+            // 
+            // lblName
+            // 
+            lblName.AutoSize = true;
+            lblName.Location = new Point(23, 80);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(52, 20);
+            lblName.TabIndex = 7;
+            lblName.Text = "Name:";
+            // 
+            // lblNewPassword
+            // 
+            lblNewPassword.AutoSize = true;
+            lblNewPassword.Location = new Point(23, 160);
+            lblNewPassword.Name = "lblNewPassword";
+            lblNewPassword.Size = new Size(107, 20);
+            lblNewPassword.TabIndex = 8;
+            lblNewPassword.Text = "New Password:";
+            // 
+            // lblConfirmPassword
+            // 
+            lblConfirmPassword.AutoSize = true;
+            lblConfirmPassword.Location = new Point(23, 235);
+            lblConfirmPassword.Name = "lblConfirmPassword";
+            lblConfirmPassword.Size = new Size(130, 20);
+            lblConfirmPassword.TabIndex = 9;
+            lblConfirmPassword.Text = "Confirm Password:";
             // 
             // ProfileForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(240, 260);
-            this.Controls.Add(this.showPasswordCheckBox);
-            this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.saveButton);
-            this.Controls.Add(this.accountCreatedLabel);
-            this.Controls.Add(this.confirmPasswordTextBox);
-            this.Controls.Add(this.newPasswordTextBox);
-            this.Controls.Add(this.nameTextBox);
-            this.Controls.Add(this.usernameLabel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "ProfileForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "User Profile";
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(274, 447);
+            Controls.Add(lblConfirmPassword);
+            Controls.Add(lblNewPassword);
+            Controls.Add(lblName);
+            Controls.Add(chkShowPassword);
+            Controls.Add(btnCancel);
+            Controls.Add(btnSave);
+            Controls.Add(lblAccountCreated);
+            Controls.Add(txtConfirmPassword);
+            Controls.Add(txtNewPassword);
+            Controls.Add(txtName);
+            Controls.Add(lblUsername);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(3, 4, 3, 4);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "ProfileForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "User Profile";
+            ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Label usernameLabel;
-        private TextBox nameTextBox;
-        private TextBox newPasswordTextBox;
-        private TextBox confirmPasswordTextBox;
-        private Label accountCreatedLabel;
-        private Button saveButton;
-        private Button cancelButton;
+        private Label lblUsername;
+        private TextBox txtName;
+        private TextBox txtNewPassword;
+        private TextBox txtConfirmPassword;
+        private Label lblAccountCreated;
+        private Button btnSave;
+        private Button btnCancel;
         private ErrorProvider errorProvider;
-        private CheckBox showPasswordCheckBox;
+        private CheckBox chkShowPassword;
+        private Label lblName;
+        private Label lblNewPassword;
+        private Label lblConfirmPassword;
     }
 }

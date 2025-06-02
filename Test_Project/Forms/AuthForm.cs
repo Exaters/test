@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Test_Project.Models;
 using Test_Project.Services;
-using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace Test_Project.Forms
 {
@@ -43,26 +34,33 @@ namespace Test_Project.Forms
         {
             if (isLoginMode)
             {
-                var user = AuthService.Login(txtUsername.Text, txtPassword.Text);
+                string hashedPassword = HashService.ComputeSaltedHash(txtPassword.Text);
+                var user = AuthService.Login(txtUsername.Text, hashedPassword);
+
                 if (user != null)
                 {
                     new MainForm(user).Show();
                     this.Hide();
                 }
-                else MessageBox.Show("Invalid credentials");
+                else
+                {
+                    MessageBox.Show("Invalid credentials", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
                 if (string.IsNullOrEmpty(txtName.Text))
                 {
-                    MessageBox.Show("Please enter your name");
+                    MessageBox.Show("Please enter your name", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
+                string hashedPassword = HashService.ComputeSaltedHash(txtPassword.Text);
 
                 var newUser = new User
                 {
                     Username = txtUsername.Text,
-                    Password = txtPassword.Text,
+                    Password = hashedPassword,
                     Name = txtName.Text
                 };
 
@@ -70,9 +68,12 @@ namespace Test_Project.Forms
                 {
                     isLoginMode = true;
                     UpdateFormState();
-                    MessageBox.Show("Registration successful!");
+                    MessageBox.Show("Registration successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else MessageBox.Show("Username already exists");
+                else
+                {
+                    MessageBox.Show("Username already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

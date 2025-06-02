@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 using Test_Project.Models;
 
 namespace Test_Project.Services
@@ -29,25 +28,40 @@ namespace Test_Project.Services
             return true;
         }
 
-        public static User? Login(string username, string password)
+        public static User? Login(string username, string passwordHash)
         {
             return _users.FirstOrDefault(u =>
-                u.Username == username && u.Password == password);
+                u.Username == username &&
+                u.Password == passwordHash);
+        }
+
+        public static void UpdateUser(User updatedUser)
+        {
+            var user = _users.FirstOrDefault(u => u.Id == updatedUser.Id);
+            if (user != null)
+            {
+                user.Name = updatedUser.Name;
+                user.Password = updatedUser.Password;
+                SaveUsers();
+            }
         }
 
         private static void LoadUsers()
         {
-            if (File.Exists(_filePath))
-                _users = JsonSerializer.Deserialize<List<User>>(File.ReadAllText(_filePath));
+            try
+            {
+                if (File.Exists(_filePath))
+                {
+                    string json = File.ReadAllText(_filePath);
+                    _users = JsonSerializer.Deserialize<List<User>>(json) ?? new List<User>();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading users: {ex.Message}");
+            }
         }
 
-        //private static void SaveUsers()
-        //{
-        //    File.WriteAllText(_filePath, JsonSerializer.Serialize(_users));
-        //}
-        // old method
-        //private static readonly string _filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "users.json");
-        // method not working because of wtf
         private static void SaveUsers()
         {
             try
@@ -60,18 +74,5 @@ namespace Test_Project.Services
                 MessageBox.Show($"Error saving users: {ex.Message}");
             }
         }
-
-
-        public static void UpdateUser(User updatedUser)
-        {
-            var user = _users.FirstOrDefault(u => u.Id == updatedUser.Id);
-            if (user != null)
-            {
-                user.Name = updatedUser.Name;
-                user.Password = updatedUser.Password;
-                SaveUsers();
-            }
-        }
-    
     }
 }

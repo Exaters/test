@@ -17,28 +17,43 @@
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            timer1 = new System.Windows.Forms.Timer(components);
+            lblTitle = new Label();
+            SuspendLayout();
             // 
             // timer1
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            timer1.Tick += timer1_Tick;
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Times New Roman", 36F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            lblTitle.Location = new Point(28, 162);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(396, 68);
+            lblTitle.TabIndex = 1;
+            lblTitle.Text = "Drugs Scedule";
             // 
             // SplashScreenForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 300);
-            this.Name = "SplashScreenForm";
-            this.Text = "SplashScreen";
-            this.Load += new System.EventHandler(this.SplashScreenForm_Load);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(457, 400);
+            Controls.Add(lblTitle);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "SplashScreenForm";
+            Text = "SplashScreen";
+            Load += SplashScreenForm_Load;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Timer timer1;
+        private Label lblTitle;
     }
 }

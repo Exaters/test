@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using Test_Project.Models;
 using Test_Project.Services;
@@ -20,16 +21,31 @@ namespace Test_Project.Forms
         private void InitializeForm()
         {
             // Настройка валидации
-            nameTextBox.Validating += ValidateRequiredField;
-            newPasswordTextBox.Validating += ValidatePassword;
-            confirmPasswordTextBox.Validating += ValidatePasswordMatch;
+            txtName.Validating += ValidateRequiredField;
+            txtNewPassword.Validating += ValidatePassword;
+            txtConfirmPassword.Validating += ValidatePasswordMatch;
 
-            // Скрываем пароли по умолчанию
-            newPasswordTextBox.UseSystemPasswordChar = true;
-            confirmPasswordTextBox.UseSystemPasswordChar = true;
+            // Инициализация полей пароля
+            UpdatePasswordVisibility();
         }
 
-        private void ValidateRequiredField(object sender, System.ComponentModel.CancelEventArgs e)
+        private void UpdatePasswordVisibility()
+        {
+            bool showPassword = chkShowPassword.Checked;
+
+            // Полностью сбрасываем свойства паролей
+            txtNewPassword.UseSystemPasswordChar = false;
+            txtConfirmPassword.UseSystemPasswordChar = false;
+
+            txtNewPassword.PasswordChar = showPassword ? '\0' : '*';
+            txtConfirmPassword.PasswordChar = showPassword ? '\0' : '*';
+
+            // Принудительное обновление отображения
+            txtNewPassword.Refresh();
+            txtConfirmPassword.Refresh();
+        }
+
+        private void ValidateRequiredField(object sender, CancelEventArgs e)
         {
             var textBox = (TextBox)sender;
             if (string.IsNullOrWhiteSpace(textBox.Text))
@@ -43,51 +59,52 @@ namespace Test_Project.Forms
             }
         }
 
-        private void ValidatePassword(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ValidatePassword(object sender, CancelEventArgs e)
         {
-            if (!string.IsNullOrEmpty(newPasswordTextBox.Text) && newPasswordTextBox.Text.Length < 6)
+            if (!string.IsNullOrEmpty(txtNewPassword.Text) && txtNewPassword.Text.Length < 6)
             {
-                errorProvider.SetError(newPasswordTextBox, "Password must be at least 6 characters");
+                errorProvider.SetError(txtNewPassword, "Password must be at least 6 characters");
                 e.Cancel = true;
             }
             else
             {
-                errorProvider.SetError(newPasswordTextBox, "");
+                errorProvider.SetError(txtNewPassword, "");
             }
         }
 
-        private void ValidatePasswordMatch(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ValidatePasswordMatch(object sender, CancelEventArgs e)
         {
-            if (newPasswordTextBox.Text != confirmPasswordTextBox.Text)
+            if (txtNewPassword.Text != txtConfirmPassword.Text)
             {
-                errorProvider.SetError(confirmPasswordTextBox, "Passwords do not match");
+                errorProvider.SetError(txtConfirmPassword, "Passwords do not match");
                 e.Cancel = true;
             }
             else
             {
-                errorProvider.SetError(confirmPasswordTextBox, "");
+                errorProvider.SetError(txtConfirmPassword, "");
             }
         }
 
         private void LoadUserData()
         {
-            usernameLabel.Text = _currentUser.Username;
-            nameTextBox.Text = _currentUser.Name;
-            accountCreatedLabel.Text = $"Account created: {_currentUser.CreatedDate.ToShortDateString()}";
+            lblUsername.Text = _currentUser.Username;
+            txtName.Text = _currentUser.Name;
+            lblAccountCreated.Text = $"Account created: {_currentUser.CreatedDate.ToShortDateString()}";
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
             if (!ValidateChildren())
                 return;
 
             try
             {
-                _currentUser.Name = nameTextBox.Text;
+                _currentUser.Name = txtName.Text;
 
-                if (!string.IsNullOrEmpty(newPasswordTextBox.Text))
+                if (!string.IsNullOrEmpty(txtNewPassword.Text))
                 {
-                    _currentUser.Password = newPasswordTextBox.Text;
+                    // Хешируем новый пароль перед сохранением
+                    _currentUser.Password = HashService.ComputeSaltedHash(txtNewPassword.Text);
                 }
 
                 AuthService.UpdateUser(_currentUser);
@@ -104,16 +121,15 @@ namespace Test_Project.Forms
             }
         }
 
-        private void cancelButton_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
-        private void showPasswordCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void chkShowPassword_CheckedChanged(object sender, EventArgs e)
         {
-            newPasswordTextBox.UseSystemPasswordChar = !showPasswordCheckBox.Checked;
-            confirmPasswordTextBox.UseSystemPasswordChar = !showPasswordCheckBox.Checked;
+            UpdatePasswordVisibility();
         }
     }
 }
